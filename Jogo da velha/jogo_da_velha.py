@@ -32,15 +32,32 @@ def ajuda(stdscr):
     stdscr.refresh()
 
 
-def reiniciar_tela(stdscr):
-    stdscr.clear()
+def reiniciar_tela(stdscr, limpar=True):
+    if limpar is True:
+        stdscr.clear()
     stdscr.border()
     boas_vindas(stdscr)
     stdscr.refresh()
 
 
+def tabuleiro(stdscr, posicoes, x_center):
+    stdscr.clear()
+    reiniciar_tela(stdscr, limpar=False)
+
+    stdscr.addstr(10, x_center - 3, "------")
+    stdscr.addstr(12, x_center - 3, "------")
+    i = 9
+    for linha in posicoes:
+        tela = "%s|%s|%s" %tuple(linha)
+        stdscr.addstr(i, x_center - 3, tela)
+        i += 2
+
+
 def main(stdscr):
     reiniciar_tela(stdscr)
+    width = stdscr.getmaxyx()[1]
+    x_center = (width - 1) // 2
+    posicoes = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']]
 
     while True:
         entrada = stdscr.getkey()
@@ -49,7 +66,7 @@ def main(stdscr):
         if entrada == 'h':
             ajuda(stdscr)
         else:
-            boas_vindas(stdscr)
+            tabuleiro(stdscr, posicoes, x_center)
 
 if __name__ == "__main__":
     initscr()
